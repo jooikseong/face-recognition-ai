@@ -1,0 +1,22 @@
+models:
+  person_yolo: "weights/person_yolo.pt"
+  bib_yolo: "weights/bib_yolo.pt"     # 없으면 빈 문자열: ""
+  insightface_pack: "buffalo_l"       # onnx 패키지명 (insightface 제공)
+  insightface_provider: "cpu"         # "cpu" | "cuda"
+
+infer:
+  frame_fps: 10                       # 3초면 최대 30프레임 -> 10fps로 샘플
+  min_face_size: 80                   # 얼굴 최소 크기(px)
+  bib_regex: "^[0-9]{2,5}$"           # 숫자 2~5자리만 유효
+  top_k: 5                            # 얼굴 후보 상위 K
+
+thresholds:
+  bib_confidence: 0.50                # bib YOLO 박스 신뢰도 임계
+  face_match: 0.35                    # 코사인 거리/유사도 기반(예시)
+  fusion_bib_weight: 0.7              # 최종 스코어 결합 가중치
+  fusion_face_weight: 0.3
+
+paths:
+  faiss_index: "artifacts/faiss.index"
+  vectors_pkl: "artifacts/vectors.pkl"
+  output_dir: "artifacts"

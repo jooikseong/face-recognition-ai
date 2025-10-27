@@ -1,0 +1,9 @@
+ultralytics==8.2.103
+opencv-python==4.10.0.84
+insightface==0.7.3
+onnxruntime==1.19.0
+faiss-cpu==1.8.0
+numpy==1.26.4
+pyyaml==6.0.2
+easyocr==1.7.1
+tqdm==4.66.4
