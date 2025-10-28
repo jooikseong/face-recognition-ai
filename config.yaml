@@ -2,7 +2,7 @@ models:
   person_yolo: "weights/person_yolo.pt"
   bib_yolo: "weights/bib_yolo.pt"     # 없으면 빈 문자열: ""
   insightface_pack: "buffalo_l"       # onnx 패키지명 (insightface 제공)
-  insightface_provider: "cpu"         # "cpu" | "cuda"
+  insightface_provider: "CPUExecutionProvider"         # "cpu" | "cuda"
 
 infer:
   frame_fps: 10                       # 3초면 최대 30프레임 -> 10fps로 샘플

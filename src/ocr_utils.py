@@ -1,11 +1,9 @@
-# src/ocr_utils.py 배번호 OCR 유틸
+# src/ocr_utils.py
 import re
 import cv2
 import numpy as np
-import yaml
-
-with open("config.yaml", "r", encoding="utf-8") as f:
-    CFG = yaml.safe_load(f)
+# import yaml # <- 삭제
+# with open... # <- 삭제
 
 def crop_torso(img, person_box):
     x1, y1, x2, y2 = map(int, person_box)
@@ -19,9 +17,13 @@ def crop_torso(img, person_box):
     tx1, tx2 = max(0, tx1), min(img.shape[1], tx2)
     return img[ty1:ty2, tx1:tx2].copy()
 
-def pick_bib_text(texts):
-    # 숫자 2~5 자리만 채택 (config의 regex)
-    pat = re.compile(CFG["infer"]["bib_regex"])
+# 'bib_regex_pattern' 인자를 받도록 수정
+def pick_bib_text(texts, bib_regex_pattern: str):
+    """OCR 결과에서 정규식과 일치하는 최상의 텍스트를 고릅니다."""
+    if not bib_regex_pattern:
+        bib_regex_pattern = '^[0-9]{2,5}$' # 기본값
+
+    pat = re.compile(bib_regex_pattern) # <- 인자로 받은 패턴 사용
     cands = []
     for t, conf in texts:
         t = t.strip().replace(" ", "")

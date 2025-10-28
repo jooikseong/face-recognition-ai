@@ -38,13 +38,33 @@ class ModelHub:
 
     def face_embed(self, bgr_img, bbox=None):
         """Return 512-dim embedding using InsightFace (auto-detect if bbox None)."""
-        # InsightFace expects BGR/ RGB? It handles internally via app.get
-        faces = self.face.get(bgr_img) if bbox is None else [self.face.models["detection"].detect(bgr_img[bbox[1]:bbox[3], bbox[0]:bbox[2]])]
-        if not faces:
+        try:
+            # bbox가 None이면 이미지 전체에서 탐지
+            if bbox is None:
+                faces = self.face.get(bgr_img)
+
+            # [수정됨] bbox가 있으면, 해당 영역을 잘라서 탐지
+            else:
+                # 이 부분이 TypeError를 해결합니다:
+                x1, y1, x2, y2 = map(int, bbox) # 소수점을 정수로 변환
+
+                cropped_img = bgr_img[y1:y2, x1:x2] # 정수로 이미지 자르기
+
+                if cropped_img.size == 0:
+                    return None
+
+                faces = self.face.get(cropped_img)
+
+            if not faces:
+                return None
+
+            # 가장 큰 얼굴 선택
+            f = max(faces, key=lambda x: (x.bbox[2]-x.bbox[0])*(x.bbox[3]-x.bbox[1]))
+            return f.normed_embedding  # 512 float32 normalized
+
+        except Exception as e:
+            print(f"[ERROR] Face embedding failed: {e}")
             return None
-        # choose largest
-        f = max(faces, key=lambda x: (x.bbox[2]-x.bbox[0])*(x.bbox[3]-x.bbox[1]))
-        return f.normed_embedding  # 512 float32 normalized
 
     def face_search(self, emb, top_k=5):
         if self.faiss_index is None: return []
