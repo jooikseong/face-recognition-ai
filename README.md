@@ -1,3 +1,9 @@
+python -m pip install -U pip setuptools wheel
+python -m pip install -r requirements.txt
+X winget install --id Microsoft.VisualStudio.2022.BuildTools -e 
+공식 다운로드 페이지 이동 → Visual Studio 사이트의 Downloads 페이지로 가서
+Tools for Visual Studio ▶ Build Tools for Visual Studio 2022를 눌러 설치 파일 다운 ▶ C++ 데스크탑 선
+
 # 마라톤 참가자 식별 시스템
 
 이 프로젝트는 마라톤 영상에서 참가자의 배번호(Bib)와 얼굴을 인식하여 식별하는 시스템입니다.
