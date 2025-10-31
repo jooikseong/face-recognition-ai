@@ -1,9 +1,14 @@
-ultralytics==8.2.103
+# ultralytics는 최신으로 두어 numpy 2.x/py3.13 호환 확보(버전 고정 제거)
+ultralytics
 opencv-python==4.10.0.84
 insightface==0.7.3
-onnxruntime==1.19.0
-faiss-cpu==1.8.0
-numpy==1.26.4
-pyyaml==6.0.2
-easyocr==1.7.1
-tqdm==4.66.4
+onnxruntime==1.20.1
+faiss-cpu==1.12.0
+numpy>=2.0.0
+pyyaml>=6.0.1
+easyocr==1.7.2
+tqdm
+
+# easyocr/PyTorch 호환: 3.13용 CPU 휠 가용 버전
+torch==2.6.0
+torchvision==0.21.0
